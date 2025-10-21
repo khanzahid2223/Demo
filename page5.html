@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Search Game</title>
+<style>
+html, body {
+  margin:0; padding:0; height:100%; font-family: Arial,sans-serif;
+  display:flex; justify-content:center; align-items:center; overflow:auto;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+}
+h1 {
+  color:#fff; text-align:center; text-shadow:2px 2px 8px #ff5c8a; margin-bottom:10px;
+  font-size:5vw;
+}
+#game {
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap:3px;
+  max-width: 95vw;
+  margin:auto;
+}
+.cell {
+  width:100%;
+  aspect-ratio: 1/1;
+  display:flex; justify-content:center; align-items:center;
+  font-size:4vw; /* responsive font size */
+  color:#fff;
+  background: rgba(255,255,255,0.2);
+  cursor:pointer;
+  border-radius:8px;
+  user-select:none;
+  transition: transform 0.2s, background 0.2s;
+}
+.cell.selected {background:#ff5c8a; transform: scale(1.2);}
+
+/* Floating hearts behind grid */
+.heart {
+  position:absolute; font-size:6vw; animation:float 6s linear infinite;
+}
+@keyframes float {
+  0% {transform:translateY(100vh) scale(0.5); opacity:0;}
+  50% {opacity:1;}
+  100% {transform:translateY(-20vh) scale(1); opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="heart" style="left:10%; animation-duration:6s;">❤</div>
+<div class="heart" style="left:30%; animation-duration:8s;">💖</div>
+<div class="heart" style="left:50%; animation-duration:5s;">💕</div>
+<div class="heart" style="left:70%; animation-duration:7s;">💗</div>
+<div class="heart" style="left:90%; animation-duration:6s;">💘</div>
+
+<div>
+<h1>Find the hidden word ❤</h1>
+<div id="game"></div>
+</div>
+
+<script>
+const answer = "ZahidSuhana".toUpperCase();
+const rows = 8;
+const cols = 12;
+const game = document.getElementById('game');
+let selectedLetters = [];
+let cells = [];
+
+// Generate random letters
+function randomLetter(){ return String.fromCharCode(65 + Math.floor(Math.random()*26)); }
+
+// Fill grid
+for(let r=0;r<rows;r++){
+  for(let c=0;c<cols;c++){
+    const cell=document.createElement('div');
+    cell.classList.add('cell');
+    cell.dataset.row=r;
+    cell.dataset.col=c;
+    cell.textContent=randomLetter();
+    cell.addEventListener('click',()=>selectCell(cell));
+    game.appendChild(cell);
+    cells.push(cell);
+  }
+}
+
+// Place the answer horizontally in the middle
+const startRow = Math.floor(rows/2);
+const startCol = Math.floor((cols-answer.length)/2);
+for(let i=0;i<answer.length;i++){
+  const index = startRow*cols + startCol + i;
+  cells[index].textContent = answer[i];
+}
+
+// Handle selection
+function selectCell(cell){
+  if(cell.classList.contains('selected')) return;
+  cell.classList.add('selected');
+  selectedLetters.push(cell.textContent);
+  if(selectedLetters.join('') === answer){
+    alert("You found it! ❤");
+    window.location.href = 'countdown.html';
+  }
+  // Reset if wrong selection
+  if(!answer.startsWith(selectedLetters.join(''))){
+    selectedLetters.forEach(l=>{
+      const sel = Array.from(cells).find(c=>c.textContent===l && c.classList.contains('selected'));
+      if(sel) sel.classList.remove('selected');
+    });
+    selectedLetters=[];
+  }
+}
+</script>
+</body>
+</html>

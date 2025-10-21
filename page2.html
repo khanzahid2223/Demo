@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Our Memories 💖</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Welcome screen */
+#welcomeScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#welcomeScreen input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  margin-top: 10px;
+}
+
+#welcomeScreen button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  background: #ff6f91;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#welcomeScreen button:hover { background: #ff3d68; }
+
+/* Gallery content */
+#content {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 2s ease-in-out;
+}
+
+h1 {
+  color: white;
+  font-size: 32px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+}
+
+.gallery {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeIn 3s ease-in-out;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.4s;
+}
+
+img:hover { transform: scale(1.1); }
+
+button#continue {
+  margin-top: 25px;
+  padding: 10px 25px;
+  background: #ff6f91;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button#continue:hover { background: #ff3d68; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.heart {
+  position: absolute;
+  color: rgba(255,255,255,0.6);
+  font-size: 20px;
+  animation: float 5s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Welcome Screen -->
+<div id="welcomeScreen">
+  <h1>What is your beautiful name? 💖</h1>
+  <input type="text" id="nameInput" placeholder="Enter your name here" />
+  <button onclick="checkName()">Submit</button>
+  <p id="errorMsg" style="color:yellow; margin-top:10px;"></p>
+</div>
+
+<!-- Gallery Content -->
+<div id="content">
+  <h1>Some Beautiful Memories 💕</h1>
+  <div class="gallery">
+    <img src="c:\Users\khanz\OneDrive\Desktop\photo1.jpg" alt="memory1" />
+    <img src="c:\Users\khanz\OneDrive\Desktop\photo2.jpg" alt="memory2" />
+    <img src="c:\Users\khanz\OneDrive\Desktop\photo3.jpg" alt="memory3" />
+  </div>
+  <button id="continue" onclick="nextPage()">Continue 💖</button>
+</div>
+
+<script>
+function checkName() {
+  const name = document.getElementById('nameInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+  if(name.toLowerCase() === 'suhana taj') {
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('content').style.display = 'flex';
+  } else {
+    errorMsg.textContent = "Naa tum meri baby nahi hoo kon hoo tun kaha hai meri Suhana";
+  }
+}
+
+function nextPage() {
+  window.location.href = 'message.html';
+}
+
+// Floating hearts
+function createHeart(){
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerText = '💖';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (3 + Math.random()*2) + 's';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(), 5000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>

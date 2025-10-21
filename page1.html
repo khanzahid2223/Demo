@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anniversary Surprise 🎁</title>
+<style>
+html, body {
+  margin:0; padding:0; height:100%; width:100%;
+  display:flex; justify-content:center; align-items:center;
+  font-family: 'Poppins', sans-serif;
+  overflow:hidden;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  transition: background 1s;
+}
+
+.centered {
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  width:95%;
+}
+
+#gift {
+  font-size:20vw; /* responsive for mobile */
+  cursor:pointer;
+  transition: transform 1s, opacity 1s;
+}
+
+#gift.open {transform: rotateY(720deg) scale(1.5); opacity:0;}
+
+#giftText {
+  margin-top:3vw;
+  font-size:6vw; /* responsive text */
+  color:#fff;
+  font-weight:bold;
+  text-shadow:2px 2px 8px #ff5c8a;
+}
+
+.message {
+  display:none;
+  font-size:8vw;
+  font-weight:bold;
+  color:#fff;
+  text-shadow:2px 2px 15px #ff5c8a;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
+
+.video-container {
+  display:none;
+  margin-top:3vw;
+  width:95%;
+  max-height:50vh;
+}
+
+iframe {
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:10px;
+}
+
+.letter {
+  display:none;
+  margin-top:3vw;
+  font-size:5vw;
+  color:#fff;
+  background: rgba(255,20,147,0.2);
+  padding:4vw;
+  border-radius:15px;
+  width:90%;
+  max-height:65vh;
+  overflow-y:auto;
+  text-align:left;
+  line-height:1.6;
+  font-weight:bold;
+  white-space:pre-wrap;
+}
+
+.heart {
+  position:absolute; font-size:6vw; color:#ff5c8a; animation:float 5s linear infinite;
+}
+
+@keyframes float {
+  0%{transform:translateY(100vh) scale(0.5); opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(-10vh) scale(1); opacity:0;}
+}
+
+/* Mobile adjustments */
+@media only screen and (max-width: 600px) {
+  #gift { font-size:25vw; }
+  #giftText { font-size:7vw; }
+  .message { font-size:9vw; }
+  iframe { height:40vh; }
+  .letter { font-size:5vw; padding:4vw; max-height:60vh; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div class="heart" style="left:5%; animation-duration:6s;">❤️</div>
+<div class="heart" style="left:25%; animation-duration:8s;">💖</div>
+<div class="heart" style="left:45%; animation-duration:5s;">💕</div>
+<div class="heart" style="left:65%; animation-duration:7s;">💗</div>
+<div class="heart" style="left:85%; animation-duration:6s;">💘</div>
+
+<div class="centered">
+  <div id="gift">🎁</div>
+  <div id="giftText">Open this gift cutie</div>
+  <div id="anniversaryMsg" class="message">Happy 1st Anniversary dear wife ❤️</div>
+  <div class="video-container">
+    <iframe src="https://www.instagram.com/reel/DLmxBkgBI9R/embed" allowfullscreen></iframe>
+  </div>
+  <div class="letter" id="loveLetter"></div>
+</div>
+
+<script>
+// Floating hearts continuously
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.innerText = '💖';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (3 + Math.random()*3) + 's';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(), 5000);
+}
+setInterval(createHeart, 500);
+
+// Step 1: Click gift
+document.getElementById('gift').addEventListener('click', ()=>{
+  const gift = document.getElementById('gift');
+  gift.classList.add('open');
+  document.getElementById('giftText').style.opacity=0;
+
+  // Step 2: Show Anniversary message after gift animation
+  setTimeout(()=>{
+    document.getElementById('anniversaryMsg').style.display='block';
+
+    // Step 3: After 10 seconds show video
+    setTimeout(()=>{
+      document.getElementById('anniversaryMsg').style.display='none';
+      document.querySelector('.video-container').style.display='block';
+
+      // Step 4: After 15 seconds show love letter
+      setTimeout(()=>{
+        document.querySelector('.video-container').style.display='none';
+        const letter = document.getElementById('loveLetter');
+        letter.style.display='block';
+
+        const text = `My beloved Suhana Taj ❤️,
+
+From the very first moment I saw you, my world changed forever.
+Your smile lights up my darkest days, and your laughter is music to my soul.
+Every heartbeat whispers your name, and every thought revolves around you.
+You are my confidante, my best friend, my love, my everything.
+With you, life is a beautiful journey filled with love, warmth, and endless joy.
+I promise to cherish, honor, and love you more deeply with each passing day.
+Happy 1st Anniversary, my love 💖
+
+Forever yours,
+Your devoted husband 💕`;
+
+        let i=0;
+        function typeWriter() {
+          if(i<text.length){
+            letter.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeWriter,50);
+          } else {
+            // Step 5: Redirect after love letter finishes typing
+            setTimeout(()=>{
+              window.location.href = "nextpage.html"; // Replace with your next page
+            }, 5000);
+          }
+        }
+        typeWriter();
+      },15000); // video display duration before love letter
+    },10000); // anniversary message display time
+  },1000); // gift animation time
+});
+</script>
+
+</body>
+</html>
