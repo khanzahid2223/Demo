@@ -8,7 +8,8 @@
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  background: url('background.img') no-repeat center center/cover; 
+  /* <-- Online romantic background image added */
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
   display: flex;
@@ -25,6 +26,11 @@ body {
   justify-content: center;
 }
 
+/* Welcome heading text color */
+#welcomeScreen h1 {
+  color: white; /* <-- Change this to modify welcome heading text color */
+}
+
 #welcomeScreen input {
   padding: 10px 15px;
   font-size: 16px;
@@ -37,7 +43,7 @@ body {
   margin-top: 15px;
   padding: 10px 25px;
   background: #ff6f91;
-  color: white;
+  color: white; /* <-- Change this to modify welcome button text color */
   border: none;
   border-radius: 20px;
   font-size: 16px;
@@ -46,6 +52,10 @@ body {
 }
 
 #welcomeScreen button:hover { background: #ff3d68; }
+
+/* Error message text color (inline style in HTML)
+<p id="errorMsg" style="color:yellow; margin-top:10px;"></p> 
+change 'yellow' to your desired color */
 
 /* Gallery content */
 #content {
@@ -56,8 +66,9 @@ body {
   animation: fadeIn 2s ease-in-out;
 }
 
-h1 {
-  color: white;
+/* Gallery heading text color */
+#content h1 {
+  color: white; /* <-- Change this to modify gallery heading text color */
   font-size: 32px;
   text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
   margin-bottom: 20px;
@@ -71,22 +82,26 @@ h1 {
   animation: fadeIn 3s ease-in-out;
 }
 
-img {
+.gallery img {
   width: 150px;
   height: 150px;
   border-radius: 15px;
   object-fit: cover;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   transition: transform 0.4s;
+  opacity: 0;          
+  transform: scale(0.8); 
+  animation: popup 0.6s forwards;
 }
 
-img:hover { transform: scale(1.1); }
+.gallery img:hover { transform: scale(1.1); }
 
+/* Continue button text color */
 button#continue {
   margin-top: 25px;
   padding: 10px 25px;
   background: #ff6f91;
-  color: white;
+  color: white; /* <-- Change this to modify continue button text color */
   border: none;
   border-radius: 20px;
   font-size: 18px;
@@ -101,9 +116,13 @@ button#continue:hover { background: #ff3d68; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes popup {
+  to { opacity: 1; transform: scale(1); }
+}
+
 .heart {
   position: absolute;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.6); /* <-- Change this to modify floating hearts color */
   font-size: 20px;
   animation: float 5s linear infinite;
 }
@@ -121,7 +140,7 @@ button#continue:hover { background: #ff3d68; }
   <h1>What is your beautiful name? 💖</h1>
   <input type="text" id="nameInput" placeholder="Enter your name here" />
   <button onclick="checkName()">Submit</button>
-  <p id="errorMsg" style="color:yellow; margin-top:10px;"></p>
+  <p id="errorMsg" style="color:yellow; margin-top:10px;"></p> <!-- <-- Change 'yellow' to modify error message color -->
 </div>
 
 <!-- Gallery Content -->
@@ -142,6 +161,13 @@ function checkName() {
   if(name.toLowerCase() === 'suhana taj') {
     document.getElementById('welcomeScreen').style.display = 'none';
     document.getElementById('content').style.display = 'flex';
+    
+    // Sequential popup effect for images
+    const images = document.querySelectorAll('.gallery img');
+    images.forEach((img, index) => {
+      img.style.animationDelay = (index * 0.5) + 's'; // delay each image by 0.5s
+    });
+    
   } else {
     errorMsg.textContent = "Naa tum meri baby nahi hoo kon hoo tun kaha hai meri Suhana";
   }
@@ -167,4 +193,3 @@ setInterval(createHeart, 300);
 
 </body>
 </html>
-
