@@ -87,6 +87,12 @@ iframe {
   100%{transform:translateY(-10vh) scale(1); opacity:0;}
 }
 
+/* Sparkle keyframes */
+@keyframes sparkle {
+  0%, 100% {opacity:0; transform:scale(0.5);}
+  50% {opacity:1; transform:scale(1);}
+}
+
 /* Mobile adjustments */
 @media only screen and (max-width: 600px) {
   #gift { font-size:25vw; }
@@ -109,7 +115,14 @@ iframe {
 <div class="centered">
   <div id="gift">🎁</div>
   <div id="giftText">Open this gift cutie</div>
+  
+  <!-- Anniversary photo will appear here dynamically -->
+  <div id="photoContainer" style="width:80%; margin-top:2vw; position:relative; display:none;">
+    <img id="annivPhoto" src="your-photo.jpg" alt="Anniversary Photo" style="width:100%; border-radius:15px;">
+  </div>
+
   <div id="anniversaryMsg" class="message">Happy 1st Anniversary dear wife ❤️</div>
+
   <div class="video-container">
     <iframe src="https://www.instagram.com/reel/DLmxBkgBI9R/embed" allowfullscreen></iframe>
   </div>
@@ -135,22 +148,52 @@ document.getElementById('gift').addEventListener('click', ()=>{
   gift.classList.add('open');
   document.getElementById('giftText').style.opacity=0;
 
-  // Step 2: Show Anniversary message after gift animation
+  // Step 2: Show Anniversary photo above text
   setTimeout(()=>{
-    document.getElementById('anniversaryMsg').style.display='block';
+    const photoContainer = document.getElementById('photoContainer');
+    photoContainer.style.display='block';
+    photoContainer.style.opacity=0;
+    photoContainer.style.transform='scale(1.05)';
+    setTimeout(()=>photoContainer.style.opacity=1, 100);
 
-    // Step 3: After 10 seconds show video
+    // Add sparkles dynamically
+    for(let i=0;i<20;i++){
+      const sparkle = document.createElement('div');
+      sparkle.style.position='absolute';
+      sparkle.style.width='10px';
+      sparkle.style.height='10px';
+      sparkle.style.background='white';
+      sparkle.style.borderRadius='50%';
+      sparkle.style.boxShadow='0 0 8px 3px white';
+      sparkle.style.left=Math.random()*100+'%';
+      sparkle.style.top=Math.random()*100+'%';
+      sparkle.style.opacity=0;
+      sparkle.style.zIndex=10;
+      sparkle.style.animationName='sparkle';
+      sparkle.style.animationDuration=(1+Math.random()*2)+'s';
+      sparkle.style.animationIterationCount='infinite';
+      sparkle.style.animationTimingFunction='ease-in-out';
+      sparkle.style.animationDelay=Math.random()*2+'s';
+      photoContainer.appendChild(sparkle);
+    }
+
+    // Step 3: Show Anniversary message below photo
     setTimeout(()=>{
-      document.getElementById('anniversaryMsg').style.display='none';
-      document.querySelector('.video-container').style.display='block';
+      document.getElementById('anniversaryMsg').style.display='block';
 
-      // Step 4: After 15 seconds show love letter
+      // Step 4: Show video after 15 seconds
       setTimeout(()=>{
-        document.querySelector('.video-container').style.display='none';
-        const letter = document.getElementById('loveLetter');
-        letter.style.display='block';
+        document.getElementById('anniversaryMsg').style.display='none';
+        photoContainer.style.display='none';
+        document.querySelector('.video-container').style.display='block';
 
-        const text = `My beloved Suhana Taj ❤️,
+        // Step 5: After 15 seconds show love letter
+        setTimeout(()=>{
+          document.querySelector('.video-container').style.display='none';
+          const letter = document.getElementById('loveLetter');
+          letter.style.display='block';
+
+          const text = `My beloved Suhana Taj ❤️,
 
 From the very first moment I saw you, my world changed forever.
 Your smile lights up my darkest days, and your laughter is music to my soul.
@@ -163,27 +206,25 @@ Happy 1st Anniversary, my love 💖
 Forever yours,
 Your devoted husband 💕`;
 
-        let i=0;
-        function typeWriter() {
-          if(i<text.length){
-            letter.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typeWriter,50);
-          } else {
-            // Step 5: Redirect after love letter finishes typing
-            setTimeout(()=>{
-              window.location.href = "page2.html"; // Replace with your next page
-            }, 5000);
+          let i=0;
+          function typeWriter() {
+            if(i<text.length){
+              letter.innerHTML += text.charAt(i);
+              i++;
+              setTimeout(typeWriter,50);
+            } else {
+              setTimeout(()=>{
+                window.location.href = "page2.html"; // Next page
+              }, 5000);
+            }
           }
-        }
-        typeWriter();
-      },15000); // video display duration before love letter
-    },10000); // anniversary message display time
-  },1000); // gift animation time
+          typeWriter();
+        },15000); // video duration
+      },15000); // message display
+    },500); // small delay to show photo first
+  },1000); // gift animation
 });
 </script>
 
 </body>
 </html>
-
-
