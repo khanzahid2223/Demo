@@ -9,7 +9,7 @@ html, body {
   margin:0; padding:0; height:100%; display:flex; justify-content:center; align-items:center;
   font-family: Arial,sans-serif; overflow:hidden; transition: background 1s;
   position: relative;
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4); /* default gradient background */
 }
 
 .centered {
@@ -55,27 +55,27 @@ h1 {
 const shayaris = [
   {
     text: "Tum meri zindagi ka sabse khoobsurat hissa ho ❤️",
-    color:"blue",  // <-- changed from rgb(255,105,180) to named color
+    color:"orchid", // new romantic color
     img:"https://media1.tenor.com/m/RInJMkTYGCEAAAAC/%EB%AA%A8%EC%B0%8C%EB%83%A5.gif"
   },
   {
     text: "Har pal jo tumhare saath bitaye, wo yaadgar hai ✨",
-    color:"lightpink", // <-- changed from rgb(255,182,193) to named color
+    color:"lightcoral", // new romantic color
     img:"https://media.tenor.com/dd4mZNppytYAAAAM/1.gif"
   },
   {
     text: "Tum meri har dua ka jawaab ho 💖",
-    color:"orange",  // <-- changed from rgb(255,20,147) to named color
+    color:"mediumvioletred", // new romantic color
     img:"https://imgs.search.brave.com/II8koMaQfQOqW_fFQZKKRciIXpens8oyyz4y7FL1KZI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS50ZW5vci5jb20v/RG5RNjVhZEVJNDBB/QUFBbS9kYW5jZS1s/b3ZlLndlYnA"
   },
   {
     text: "Tumse mohabbat meri pehli aur aakhri hai 💕",
-    color:"hotpink",  // <-- changed from rgb(255,105,180) to named color
+    color:"deeppink", // new romantic color
     img:"https://imgs.search.brave.com/IgbmXinMhVArz84Pm5H6h4QolU55ezBW7k0Pol5IyjI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS50ZW5vci5jb20v/RTVITC01Z1pndTRB/QUFBTS9hbHdheXMt/YW5kLWZvcmV2ZXIt/aS1sb3ZlLXlvdS5n/aWY.gif"
   },
   {
     text: "Har pal tumhari muskan meri duniya roshan karti hai 💗",
-    color:"lightgreen",  // <-- changed from rgb(255,182,193) to named color
+    color:"hotpink", // new romantic color
     img:"https://media.tenor.com/ffG8ZgTeQ74AAAAi/peach-and-goma-cute.gif"
   }
 ];
@@ -100,26 +100,25 @@ function createHeart() {
 
 function showNext(){
   const current = shayaris[index];
-  body.style.background = `linear-gradient(135deg, ${current.color}, #fad0c4)`;  // <-- named color used here
-  box.style.opacity=0;
-  imageBox.style.opacity=0;
-  setTimeout(()=>{
-    box.innerHTML = `<span style="color:${current.color}">${current.text}</span>`; // <-- named color applied
-    imageBox.src = current.img;
-    box.style.opacity=1;
-    imageBox.style.opacity=1;
-  },500);
+  body.style.background = "linear-gradient(135deg,#ff9a9e,#fad0c4)"; // same background
+  // make both text and image appear simultaneously
+  box.innerHTML = `<span style="color:${current.color}">${current.text}</span>`; // set text color
+  imageBox.src = current.img;
+  box.style.opacity=1;
+  imageBox.style.opacity=1;
+
   index++;
   if(index >= shayaris.length){
     setTimeout(()=>{ window.location.href='page4.html'; },10000);
   } else {
-    setTimeout(showNext,10000);
+    setTimeout(showNext,10000); // show next after 10s
   }
 }
 
 // create floating hearts continuously
 setInterval(createHeart, 500);
 
+// start the first display
 setTimeout(showNext,1000);
 </script>
 
