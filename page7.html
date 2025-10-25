@@ -3,58 +3,79 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Photo Gallery</title>
+<title>Our Memories 💖</title>
 <style>
 html, body {
-  margin:0; padding:0; height:100%; width:100%;
-  font-family: Arial, sans-serif; 
-  overflow:hidden; 
-  display:flex; justify-content:center; align-items:center;
-  background: linear-gradient(135deg,#fbc2eb,#a6c1ee);
+  margin: 0; padding: 0; height: 100%; width: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  display: flex; justify-content: center; align-items: center;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
   position: relative;
 }
-img {
-  width:300px; 
-  border-radius:15px;
-  opacity:0;
-  transform: scale(0);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  transition: all 1s ease;
-  position: absolute;
-}
 
-/* Floating hearts behind gallery */
+/* 💞 Floating Hearts */
 .heart {
-  position:absolute; font-size:24px; animation:float 6s linear infinite;
+  position: absolute;
+  font-size: 24px;
+  animation: float 6s linear infinite;
 }
 @keyframes float {
-  0% {transform:translateY(100vh) scale(0.5); opacity:0;}
-  50% {opacity:1;}
-  100% {transform:translateY(-20vh) scale(1); opacity:0;}
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-20vh) scale(1); opacity: 0; }
 }
 
-/* Thank You Message */
-#thankYou {
-  display:none;
-  color:white;
-  font-size:36px;
-  text-shadow: 2px 2px 10px #ff5c8a;
-  text-align:center;
-  animation: fadeIn 2s forwards;
+/* 🖼️ Images */
+img {
+  width: 380px;
+  border-radius: 20px;
+  opacity: 0;
+  position: absolute;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transform: scale(0.7);
 }
-@keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
+
+/* 🌈 Animation Effects */
+@keyframes fadeZoom { from {opacity:0; transform:scale(0.7);} to {opacity:1; transform:scale(1);} }
+@keyframes slideLeft { from {opacity:0; transform:translateX(100px);} to {opacity:1; transform:translateX(0);} }
+@keyframes slideRight { from {opacity:0; transform:translateX(-100px);} to {opacity:1; transform:translateX(0);} }
+@keyframes rotateIn { from {opacity:0; transform:rotate(-45deg) scale(0.5);} to {opacity:1; transform:rotate(0) scale(1);} }
+@keyframes flipIn { from {opacity:0; transform:rotateY(90deg);} to {opacity:1; transform:rotateY(0);} }
+@keyframes spinIn { from {opacity:0; transform:rotate(360deg) scale(0.5);} to {opacity:1; transform:rotate(0deg) scale(1);} }
+@keyframes zoomRotate { from {opacity:0; transform:scale(0.3) rotate(-20deg);} to {opacity:1; transform:scale(1) rotate(0);} }
+@keyframes slideUp { from {opacity:0; transform:translateY(120px);} to {opacity:1; transform:translateY(0);} }
+@keyframes slideDown { from {opacity:0; transform:translateY(-120px);} to {opacity:1; transform:translateY(0);} }
+@keyframes softTilt { from {opacity:0; transform:rotate(10deg) scale(0.6);} to {opacity:1; transform:rotate(0deg) scale(1);} }
+
+/* ❤️ Thank You Message */
+#thankYou {
+  display: none;
+  color: white;
+  font-size: 36px;
+  text-shadow: 2px 2px 10px #ff5c8a;
+  text-align: center;
+  animation: fadeText 2s forwards;
+}
+@keyframes fadeText { from{opacity:0;} to{opacity:1;} }
+
+/* 📱 Mobile Responsive */
+@media (max-width: 768px) {
+  img { width: 80vw; }
+  #thankYou { font-size: 26px; }
+}
 </style>
 </head>
 <body>
 
-<!-- Floating hearts -->
+<!-- 💖 Floating Hearts -->
 <div class="heart" style="left:10%; animation-duration:6s;">❤️</div>
 <div class="heart" style="left:30%; animation-duration:8s;">💖</div>
 <div class="heart" style="left:50%; animation-duration:5s;">💕</div>
 <div class="heart" style="left:70%; animation-duration:7s;">💗</div>
 <div class="heart" style="left:90%; animation-duration:6s;">💘</div>
 
-<!-- Images -->
+<!-- 🖼️ Images -->
 <img src="4th.jpg" alt="Photo1">
 <img src="5th.jpg" alt="Photo2">
 <img src="6th.jpg" alt="Photo3">
@@ -66,7 +87,7 @@ img {
 <img src="12th.jpg" alt="Photo9">
 <img src="13.jpg" alt="Photo10">
 
-<!-- Thank You -->
+<!-- 💌 Thank You -->
 <div id="thankYou">Special Thanks ❤️</div>
 
 <script>
@@ -74,27 +95,39 @@ const images = document.querySelectorAll('img');
 const thankYou = document.getElementById('thankYou');
 let i = 0;
 
+// 🎞️ Each image gets a unique transition effect
+const animations = [
+  'fadeZoom', 'slideLeft', 'slideRight', 'rotateIn', 'flipIn',
+  'spinIn', 'zoomRotate', 'slideUp', 'slideDown', 'softTilt'
+];
+
 function showNextImage() {
-  if (i > 0) {
-    images[i-1].style.opacity = 0;
-    images[i-1].style.transform = 'scale(0)';
-  }
-  
+  // Hide all images first to prevent overlap
+  images.forEach(img => {
+    img.style.opacity = 0;
+    img.style.transform = 'scale(0.8)';
+    img.style.animation = '';
+  });
+
+  // All images finished
   if (i >= images.length) {
     thankYou.style.display = 'block';
     return;
   }
 
-  images[i].style.opacity = 1;
-  images[i].style.transform = 'scale(1)';
-  
+  // Show current image with unique animation
+  const currentImg = images[i];
+  const anim = animations[i % animations.length];
+  currentImg.style.animation = `${anim} 1.5s ease forwards`;
+  currentImg.style.opacity = 1;
+
   i++;
-  setTimeout(showNextImage, 5000); // 5 seconds gap
+  setTimeout(showNextImage, 5000); // 5 seconds per image
 }
 
+// Start slideshow
 showNextImage();
 </script>
 
 </body>
 </html>
-
